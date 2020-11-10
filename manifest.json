@@ -17,6 +17,7 @@
     "permissions": ["activeTab", "storage"],
     "browser_action": {
       "default_icon": "icon_16.png",
-      "default_popup": "popup.html"
+      "default_popup": "pop-up.html",
+      "default_title": "Drag tab into here to lock it for (x) mins"
     }
 }
