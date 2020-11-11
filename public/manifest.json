@@ -1,13 +1,9 @@
 {
     "manifest_version": 2,
     "name" : "time-block thing",
-    "version": "0.1",
-    "default_locale": "en",
+    "version": "0.0.1",
     "description": "Blocks tabs, and plays an ad that will go to a donation/person when you enter the site outside of your restrictions",
     "icons": {
-      "128": "icon_16.png",
-      "128": "icon_32.png",
-      "128": "icon_48.png",
       "128": "icon_128.png"
     },
     "background": {
@@ -16,8 +12,8 @@
     },
     "permissions": ["activeTab", "storage"],
     "browser_action": {
-      "default_icon": "icon_16.png",
-      "default_popup": "pop-up.html",
+      "default_icon": "icon_128.png",
+      "default_popup": "index.html",
       "default_title": "Drag tab into here to lock it for (x) mins"
     }
 }
