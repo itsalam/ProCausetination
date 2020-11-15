@@ -8,11 +8,12 @@ module.exports = function (env, argv) {
     console.log(env)
 
     const config = {
+        stats: "verbose",
         devtool: argv.mode === 'production' ? 'source-map' : 'inline-source-map',
         entry: {
-            background_page: './src/background/background.ts',
+            background: './src/background/background.ts',
             // TO DO ADD CONTENT_SCRIPT? content_script: '',
-            pop_up: './src/index.tsx',
+            pop_up: './src/popup/index.tsx',
         },
         module: {
             rules: [
@@ -25,6 +26,14 @@ module.exports = function (env, argv) {
                     test: /\.s[ac]ss$/i,
                     use: ['style-loader', 'css-loader', 'sass-loader']
                 },
+                {
+                    test: /\.css$/i,
+                    use: ['style-loader', 'css-loader']
+                },                {
+                    test: /\.svg$/i,
+                    use: ['svg-url-loader']
+                },
+
             ],
         },
         output: {
@@ -37,14 +46,14 @@ module.exports = function (env, argv) {
             extensions: [ '.tsx', '.ts', '.js' ],
         },
         plugins:[
-            new CopyWebpackPlugin([{
+            new CopyWebpackPlugin({
                 patterns:[
                     {
-                        from: 'static'
+                        from: 'static',
                     }
                 ]
             }
-            ]),
+            ),
             new GenerateJsonPlugin(
                 'manifest.json',
                 merge(
@@ -53,7 +62,10 @@ module.exports = function (env, argv) {
                 null,
                 2
             )
-        ]
+        ],
+        optimization: {
+            minimize: false
+        },
     }
 
     return config;

@@ -1,3 +1,5 @@
+import { extractHostname } from "../helpers";
+import { Storage } from "../types";
 
 
 chrome.runtime.onInstalled.addListener(function (object) {
@@ -10,7 +12,7 @@ chrome.runtime.onInstalled.addListener(function (object) {
         title: "Add site to AppBlock",
         checked: false,
       })
-    chrome.storage.sync.set({'blocked_sites': {}}, ()=>{
+    chrome.storage.sync.set({[Storage.BlockedSite]: []}, ()=>{
       console.log("built storage for blocked sites");
     })
     if (object.reason === 'install') {
@@ -26,14 +28,23 @@ chrome.runtime.onInstalled.addListener(function (object) {
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'add_site'){
-    chrome.storage.sync.get(['blocked_sites'], (result)=>{
-      chrome.storage.sync.set(
-        {
-          blocked_sites: {...Object.values(result.blocked_sites), tab}
-        }, 
-        () => {console.log("we did it bois");
-      })
-      console.log(`oh fuck look at this`, result);
+    chrome.storage.sync.get([Storage.BlockedSite], (result)=>{
+      try{
+        console.log(result)
+        result[Storage.BlockedSite].push(tab)
+        chrome.storage.sync.set(
+          {
+            [Storage.BlockedSite]: result[Storage.BlockedSite]
+          }, 
+          () => {
+            console.log(result);
+            chrome.pageAction.show(tab?.id!);
+          }
+        )
+
+      } catch (e) {
+        console.error(`No current tab active, possible issues: ${e},\n Current Storage query: ${result}`);
+      }
     })
   }
 })
