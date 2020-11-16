@@ -17,3 +17,18 @@ export function extractHostname(url:string): string {
 
     return psl.get(hostname) || "";
 }
+
+export async function resolveChomeCallback<T>(args: any, callbackFn: (params: any, fn: (args0?: T) => void ) => void, object?: any): Promise<T>{
+    return await new Promise<any>((resolve, reject) => {
+        if (object) {
+            callbackFn.call(object, args, (result: any) => 
+            {
+                resolve(result);
+            });
+        } else {
+            callbackFn(args, (result) => {
+                resolve(result);
+            })
+        }
+    });
+}

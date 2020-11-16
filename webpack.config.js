@@ -11,7 +11,7 @@ module.exports = function (env, argv) {
         stats: "verbose",
         devtool: argv.mode === 'production' ? 'source-map' : 'inline-source-map',
         entry: {
-            background: './src/background/background.ts',
+            background: './src/background/',
             // TO DO ADD CONTENT_SCRIPT? content_script: '',
             pop_up: './src/popup/index.tsx',
         },
@@ -66,6 +66,7 @@ module.exports = function (env, argv) {
         optimization: {
             minimize: false
         },
+        watch: argv.mode === 'development'? true : false
     }
 
     return config;

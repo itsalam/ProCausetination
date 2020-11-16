@@ -7,7 +7,7 @@ function Header() {
         <div className="Title">         
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Some Kinda Project
+            Mima
           </p>
         </div>
 
