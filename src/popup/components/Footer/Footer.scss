@@ -1,0 +1,18 @@
+.MuiPaper-root .MuiTabs-root{
+    min-height: 35px;
+    height: 35px;
+}
+
+.MuiTab-root.tab {
+    min-height: 35px;
+    width: 33%;
+    height: 35px;
+    padding: 0 12px;
+    span {
+        padding: auto;
+        margin: auto;
+        i {
+            font-size: 20px;
+        }
+    }
+}

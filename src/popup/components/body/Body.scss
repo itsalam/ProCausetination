@@ -1,18 +1,7 @@
-.site-list-entry {
-    list-style-type: none;
-    display: flex;
-    height: 30px;
-    font-size: large;
-    justify-content: left;
-    align-items: center;
-    img {
-        height: 16px;
-        padding-left: 5px;
-        padding-right: 10px;
+.body-container {
+    min-height: 100px;
+    height: 100px;
+    .body-tab {
+        height: 100%;
     }
-
-}
-
-ul{
-    padding-inline-start: 10px;
 }

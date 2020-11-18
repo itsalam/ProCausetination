@@ -1,0 +1,33 @@
+.site-list-entry {
+    list-style-type: none;
+    display: flex;
+    height: 30px;
+    font-size: large;
+    justify-content: left;
+    align-items: center;
+    img {
+        height: 16px;
+        padding-left: 5px;
+        padding-right: 10px;
+    }
+
+}
+
+.listContainer {
+    margin: 2% auto;
+    max-width: 95%;
+    min-height: 15px;
+    border: 1px solid #ccc!important;    
+    border-radius: 5px;
+}
+
+.homeContainer {
+    margin: 2% auto;
+    max-width: 95%;
+    min-height: 95%;
+}
+
+ul {
+    margin: 10px auto;
+    padding: 0;
+}

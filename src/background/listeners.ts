@@ -1,5 +1,5 @@
-import { getCurrentApps, setCurrentApps } from './../services/ListApps';
-import { extractHostname, resolveChomeCallback } from "../helpers";
+import { getCurrentApps, setCurrentApps } from '../services/currentApps';
+import { extractHostname, replacer, resolveChomeCallback } from "../helpers";
 import { Storage } from "../types";
 import Tab = chrome.tabs.Tab;
 
@@ -19,10 +19,8 @@ export function addInstallListener() {
             title: "Add site to AppBlock",
             checked: false,
         })
-        await resolveChomeCallback({[Storage.BlockedSite]: new Map<string, Tab>()}, chrome.storage.sync.set, chrome.storage.sync) ;
+        await resolveChomeCallback({[Storage.BlockedSite]: JSON.stringify(new Map<string, Tab>(), replacer)}, chrome.storage.sync.set, chrome.storage.sync) ;
         console.log("built storage for blocked sites");
-        console.log(new Map());
-        console.log(await resolveChomeCallback(null, chrome.storage.sync.get, chrome.storage.sync));
         if (object.reason === 'install') {
         // TODO: Create welcome page
         }
