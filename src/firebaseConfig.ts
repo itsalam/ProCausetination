@@ -7,7 +7,6 @@ const firebaseConfig = {
     storageBucket: env.storageBucket
   };
 
-  console.log(env);
-  
+const intializeFirebase = firebase.initializeApp(firebaseConfig)
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+export default intializeFirebase;

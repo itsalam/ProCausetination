@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {getCurrentApps} from 'services/currentApps';
 import Listing from './Listing';
 import './Home.scss';
+import SignIn from 'signIn';
 import Tab = chrome.tabs.Tab;
 
 function Home(){
@@ -29,7 +30,7 @@ function Home(){
                 </ul>
             </div>
             <div className="homeFooter">
-                <div className="cashCard">
+                <div className="cashCard card">
                     <p>Total ad views:</p>
                     <div>
                         
@@ -37,7 +38,7 @@ function Home(){
                     </div>
                 </div>
                 <div>
-
+                    <SignIn/>
                 </div>
             </div>
         </div>
