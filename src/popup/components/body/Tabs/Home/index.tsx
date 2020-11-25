@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import {getCurrentApps} from 'services/currentApps';
-import Listing from './Listing';
+import {getCurrentApps} from 'Services/appService';
 import './Home.scss';
-import SignIn from 'signIn';
+import SignIn from 'SignIn';
+import { AppInfo } from 'types';
+import Listing from './Listing';
 import Tab = chrome.tabs.Tab;
 
 function Home(){
     
-    var [apps, setApps] = React.useState<{name:string, app:Tab}[]>();
+    var [apps, setApps] = React.useState<{name:string, app:AppInfo}[]>();
 
     useEffect(() => {
         const updateBlockedApps = async () => {

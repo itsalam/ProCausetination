@@ -19,7 +19,7 @@ export function extractHostname(url: string): string {
     return psl.get(hostname) || "";
 }
 
-export async function resolveChomeCallback<T>(args: any, callbackFn: (params: any, fn: (args0?: T) => void) => void, object?: any): Promise<T> {
+export async function resolveChromeCallback<T>(args: any, callbackFn: (params: any, fn: (args0?: T) => void) => void, object?: any): Promise<T> {
     return await new Promise<any>((resolve, reject) => {
         if (object) {
             callbackFn.call(object, args, (result: any) => {
@@ -33,23 +33,6 @@ export async function resolveChomeCallback<T>(args: any, callbackFn: (params: an
     });
 }
 
-export function replacer(this: any, key: string | number, value: any) {
-    const originalObject = this[key];
-    if (originalObject instanceof Map) {
-        return {
-            dataType: 'Map',
-            value: Array.from(originalObject.entries()) as unknown as Tab, // or with spread: value: [...originalObject]
-        };
-    } else {
-        return value;
-    }
-}
-
-export function reviver(key: any, value: { dataType: string; value: Iterable<readonly [unknown, unknown]>; } | null) {
-    if (typeof value === 'object' && value !== null) {
-        if (value.dataType === 'Map') {
-            return new Map(value.value);
-        }
-    }
-    return value;
+export function chromeStorageToMap(objectStr: string): Map<string, object>{
+    return new Map(JSON.parse(objectStr).value)
 }

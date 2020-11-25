@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { extractHostname } from 'helpers';
-import Tab = chrome.tabs.Tab;
+import { AppInfo } from 'types';
 
-function Listing(props:{name:string, app: Tab}){
+function Listing(props:{name:string, app: AppInfo}){
 
     useEffect(()=>{
 

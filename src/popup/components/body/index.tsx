@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import Home from './Tabs/Home';
 import './Body.scss';
+import Home from './Tabs/Home';
 
 function TabPanel(props: {value: number, index: number, children: React.ReactNode, className: string}) {
     const { children, value, index, className } = props;
