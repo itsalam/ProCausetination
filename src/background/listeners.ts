@@ -1,4 +1,4 @@
-import { getCurrentApps, setCurrentApps } from '../services/currentApps';
+import { getCurrentApps, setCurrentApps } from '../popup/services/currentApps';
 import { extractHostname, replacer, resolveChomeCallback } from "../helpers";
 import { Storage } from "../types";
 import Tab = chrome.tabs.Tab;

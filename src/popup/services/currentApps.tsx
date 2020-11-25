@@ -1,5 +1,5 @@
-import { extractHostname, replacer, resolveChomeCallback, reviver } from "../helpers";
-import { Storage, WebAppListing } from "../types";
+import { extractHostname, replacer, resolveChomeCallback, reviver } from "../../helpers";
+import { Storage, WebAppListing } from "../../types";
 import Tab = chrome.tabs.Tab;
 
 export const getCurrentApps = async () : Promise<Map<string, Tab>> => {

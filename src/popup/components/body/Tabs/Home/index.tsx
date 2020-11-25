@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import {getCurrentApps} from 'services/currentApps';
+import {getCurrentApps} from 'popup/services/currentApps';
 import Listing from './Listing';
 import './Home.scss';
-import SignIn from 'signIn';
+import SignIn from 'popup/components/SignIn';
 import Tab = chrome.tabs.Tab;
 
 function Home(){
@@ -38,7 +38,6 @@ function Home(){
                     </div>
                 </div>
                 <div>
-                    <SignIn/>
                 </div>
             </div>
         </div>
