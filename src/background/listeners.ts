@@ -1,5 +1,5 @@
 import { Storage } from './../types';
-import { getCurrentApps, addBlockedApp, setAppAsActive } from '../Services/appService';
+import { getCurrentApps, addBlockedApp, setAppAsActive, deactivateApp } from '../Services/appService';
 import { extractHostname } from "../helpers";
 import { getStorage, setStorage } from 'Services/storageService';
 import Tab = chrome.tabs.Tab;
@@ -11,11 +11,7 @@ export function addTabListener() {
         var oldActive = await getStorage(Storage.ActiveSite)
         if (oldActive) {
             console.log(oldActive);
-            let currentApps = await getCurrentApps();
-            if (currentApps.has(oldActive)){
-                console.log(currentApps.get(oldActive));
-                setStorage(Storage.ActiveSite, undefined);
-            }
+            deactivateApp()
         }
 
         //Find if current site is on blocked list, and start active

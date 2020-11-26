@@ -1,5 +1,5 @@
 import { AppInfo, Session } from 'types';
-import { setActiveAppFields } from './appService';
+import { updateActiveApp } from './appService';
 import { setStorage } from './storageService';
 
 export function createSession(appInfo: AppInfo) : Session{
@@ -20,9 +20,9 @@ export function startSession(session: Session, interval = 60) : NodeJS.Timeout {
             session.remainingTime -= timeDelta
             if (0 > session.remainingTime){
                 console.log("time up")
-                setActiveAppFields({currentSession: session, expired: true})
+                updateActiveApp({currentSession: session, expired: true})
             }
-            else setActiveAppFields({currentSession: session})
+            else updateActiveApp({currentSession: session})
         }
     }, 1000)
 

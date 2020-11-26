@@ -1,4 +1,3 @@
-import { exception } from "console";
 import { extractHostname } from "../helpers";
 import { AppInfo, Storage, WebAppListing, Session, ActiveAppInfo } from "../types";
 import { getStorage, setStorage } from "./storageService";
@@ -16,17 +15,17 @@ export const setAppAsActive = async (tabName: string) : Promise<boolean> => {
         let app = blockedSites.get(tabName)
         if (!app) throw "Application not found"
         let session = createSession(app)
-        let sessionId = startSession(session)
+        let sessionId = startSession(session, 1)
 
         let activeApp : ActiveAppInfo = {...app, currentSession: session, sessionId}
-
+        console.log(activeApp)
         await setStorage(Storage.ActiveSite, activeApp);
         return true;
     }
     return false;
 }
 
-export const setActiveApp = async (fields: any) : Promise<boolean> => {
+export const updateActiveApp = async (fields: any) : Promise<boolean> => {
     var activeApp : ActiveAppInfo = await getStorage(Storage.ActiveSite);
     activeApp = { ...fields, ...activeApp};
     await setStorage(Storage.ActiveSite, activeApp);
@@ -55,17 +54,18 @@ export const addBlockedApp = async (tab: Tab, time?: number) : Promise<void> => 
     setAppAsActive(name);
 }
 
-export const deactiveApp = async () => {
+export const deactivateApp = async () => {
     let activeApp : ActiveAppInfo = await getStorage(Storage.ActiveSite);
     global.clearInterval(activeApp.sessionId!)
     let session = activeApp.currentSession;
     let timedelta = session.lastRecordedTime - Date.now()
 
-    let deactivaedApp : AppInfo = {
+    let deactivatedApp : AppInfo = {
         ...activeApp,
         remainingTime: activeApp.remainingTime - timedelta
     }
-    addApp(deactivaedApp)
+    console.log(deactivatedApp)
+    addApp(deactivatedApp)
 }
 
 const addApp = async (app: AppInfo) => {
