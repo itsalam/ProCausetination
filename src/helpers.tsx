@@ -1,3 +1,4 @@
+import { time } from 'console';
 import psl from 'psl';
 import Tab = chrome.tabs.Tab;
 
@@ -36,3 +37,4 @@ export async function resolveChromeCallback<T>(args: any, callbackFn: (params: a
 export function chromeStorageToMap(objectStr: string): Map<string, object>{
     return new Map(JSON.parse(objectStr).value)
 }
+

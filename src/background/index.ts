@@ -3,13 +3,7 @@ import { addContextMenuListener, addInstallListener, addTabListener } from "./li
 
 
 
-function startTimer(time: number = Date.now()) : NodeJS.Timeout {
-    let intervalId = global.setInterval(() => {
-        time = Date.now()
-    }, 1000)
 
-    return intervalId
-}
 
 addInstallListener();
 addTabListener();
