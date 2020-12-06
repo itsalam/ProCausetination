@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
+const Dotenv = require('dotenv-webpack');
 const merge = require('webpack-merge')
 const path = require('path') 
 
@@ -46,6 +47,7 @@ module.exports = function (env, argv) {
             extensions: [ '.tsx', '.ts', '.js' ],
         },
         plugins:[
+            new Dotenv(),
             new CopyWebpackPlugin({
                 patterns:[
                     {

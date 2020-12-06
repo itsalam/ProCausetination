@@ -1,12 +1,10 @@
-import { extractHostname, resolveChomeCallback } from "../helpers";
+import { extractHostname, replacer, resolveChomeCallback, reviver } from "../helpers";
 import { Storage, WebAppListing } from "../types";
 import Tab = chrome.tabs.Tab;
 
 export const getCurrentApps = async () : Promise<Map<string, Tab>> => {
     let blockedSite = await resolveChomeCallback([Storage.BlockedSite], chrome.storage.sync.get, chrome.storage.sync);
-    console.log(blockedSite);
-    const entries: any = blockedSite[Storage.BlockedSite];
-    return new Map<string, Tab>(Object.keys(entries).length? entries : []);
+    return JSON.parse(blockedSite[Storage.BlockedSite], reviver);
 }
 
 export const setCurrentApps = async (tab: Tab, blockedSites: Map<string, Tab>) : Promise<void> => {
@@ -16,8 +14,5 @@ export const setCurrentApps = async (tab: Tab, blockedSites: Map<string, Tab>) :
         return;
     }
     blockedSites.set(name, tab);
-    console.log(blockedSites);
-    console.log("help");
-    
-    await resolveChomeCallback({[Storage.BlockedSite]: Array.from(blockedSites.entries())}, chrome.storage.sync.set, chrome.storage.sync);
+    await resolveChomeCallback({[Storage.BlockedSite]: JSON.stringify(blockedSites, replacer)}, chrome.storage.sync.set, chrome.storage.sync);
 }
