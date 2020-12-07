@@ -8,11 +8,7 @@ export function addTabListener() {
     
     chrome.tabs.onActivated.addListener(async (activeInfo) => {
         //deactivated old tab if it's an listed app 
-        var oldActive = await getStorage(Storage.ActiveSite)
-        if (oldActive) {
-            console.log(oldActive);
-            deactivateApp()
-        }
+        deactivateApp();
 
         //Find if current site is on blocked list, and start active
         chrome.tabs.get(activeInfo.tabId, async (tab) => {
@@ -32,9 +28,10 @@ export function addInstallListener() {
             title: "Add site to AppBlock",
             checked: false,
         })
-        await setStorage(Storage.ActiveSite, undefined)
+        await setStorage(Storage.ActiveSite, null)
         await setStorage(Storage.BlockedSites, new Map<string, Tab>())
         console.log("built storage for blocked sites");
+        await chrome.storage.sync.get(null, items => console.log(items))
         if (object.reason === 'install') {
         // TODO: Create welcome page
         }

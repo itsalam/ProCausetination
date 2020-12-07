@@ -1,5 +1,5 @@
 import { extractHostname } from "../helpers";
-import { AppInfo, Storage, WebAppListing, Session, ActiveAppInfo } from "../types";
+import { AppInfo, Storage, WebAppListing, Session, ActiveAppInfo, Time } from "../types";
 import { getStorage, setStorage } from "./storageService";
 import { createSession, startSession } from "./timerService";
 import Tab = chrome.tabs.Tab;
@@ -8,12 +8,15 @@ export const getCurrentApps = async () : Promise<Map<string, AppInfo>> => {
     return await getStorage(Storage.BlockedSites);
 }
 
+export const getActiveApp = async () : Promise<ActiveAppInfo> => {
+    return await getStorage(Storage.ActiveSite);
+}
+
 export const setAppAsActive = async (tabName: string) : Promise<boolean> => {
     var blockedSites = await getCurrentApps();
-    if (blockedSites.has((tabName))){
-        
-        let app = blockedSites.get(tabName)
-        if (!app) throw "Application not found"
+    let app = blockedSites.get(tabName)
+    if (app && !app.expired){
+        console.log("started")
         let session = createSession(app)
         let sessionId = startSession(session, 1)
 
@@ -29,6 +32,7 @@ export const updateActiveApp = async (fields: any) : Promise<boolean> => {
     var activeApp : ActiveAppInfo = await getStorage(Storage.ActiveSite);
     activeApp = { ...fields, ...activeApp};
     await setStorage(Storage.ActiveSite, activeApp);
+    console.log("help")
     return true;
 }
 
@@ -40,7 +44,7 @@ export const addBlockedApp = async (tab: Tab, time?: number) : Promise<void> => 
         return;
     }
     if(!time){
-        time = ({"defaultTime": 30}).defaultTime;
+        time = ({"defaultTime": 2}).defaultTime * Time.MINUTE;
     }
 
     //TODO: notify reset timer, for now we readd entry
@@ -50,28 +54,29 @@ export const addBlockedApp = async (tab: Tab, time?: number) : Promise<void> => 
         {...entry, remainingTime: time, expired: false} 
         :
         {name, favIconUrl: tab.favIconUrl!, remainingTime: time, expired: false}; 
-    addApp(newEntry);
-    setAppAsActive(name);
+    await addApp(newEntry);
+    await setAppAsActive(name);
 }
 
 export const deactivateApp = async () => {
     let activeApp : ActiveAppInfo = await getStorage(Storage.ActiveSite);
-    global.clearInterval(activeApp.sessionId!)
-    let session = activeApp.currentSession;
-    let timedelta = session.lastRecordedTime - Date.now()
-
-    let deactivatedApp : AppInfo = {
-        ...activeApp,
-        remainingTime: activeApp.remainingTime - timedelta
+    if(activeApp){
+        global.clearInterval(activeApp.sessionId!);
+        let session = activeApp.currentSession;
+        console.log(Date.now() - session.lastRecordedTime);
+        let remainingTime = activeApp.remainingTime - (Date.now() - session.lastRecordedTime);
+        let deactivatedApp : AppInfo = {
+            ...activeApp,
+            remainingTime: remainingTime,
+            expired: remainingTime < 0
+        };
+        addApp(deactivatedApp);
     }
-    console.log(deactivatedApp)
-    addApp(deactivatedApp)
 }
 
 const addApp = async (app: AppInfo) => {
     let currentApps = await getCurrentApps();
-    
     currentApps.set(app.name, app)
-
     await setStorage(Storage.BlockedSites, currentApps);
 }
+

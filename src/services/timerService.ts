@@ -11,19 +11,26 @@ export function createSession(appInfo: AppInfo) : Session{
 }
 
 export function startSession(session: Session, interval = 60) : NodeJS.Timeout {
-    //Update/write to storage every minute, until last minute, then write every second 
-    let intervalId = global.setInterval(() => {
+    let intervalId = global.setInterval(async () => {
         let currenttime = Date.now()
         let timeDelta = currenttime - session.lastRecordedTime
+    
+        session.lastRecordedTime = currenttime;
+        session.remainingTime -= timeDelta;
+        chrome.runtime.sendMessage({...session})
         if (timeDelta > interval * 1000){
-            session.lastRecordedTime = currenttime
-            session.remainingTime -= timeDelta
             if (0 > session.remainingTime){
-                console.log("time up")
-                updateActiveApp({currentSession: session, expired: true})
+                console.log("time up");
+                // TODO: Create notification of expired appW
+                await updateActiveApp({currentSession: undefined, expired: true});
+                console.log(intervalId)
+                global.clearInterval(intervalId);
             }
-            else updateActiveApp({currentSession: session})
+            else {
+                await updateActiveApp({currentSession: session})
+            }
         }
+        
     }, 1000)
 
     return intervalId

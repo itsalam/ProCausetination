@@ -1,18 +1,31 @@
+import { millisToMinutesAndSeconds } from 'helpers';
 import React, { useEffect } from 'react';
-import { AppInfo } from 'types';
+import { getActiveApp } from 'Services/appService';
+import { getStorage } from 'Services/storageService';
+import { ActiveAppInfo, AppInfo, Session } from 'types';
 
-function Listing(props:{name:string, app: AppInfo}){
+export function Listing(props:{ app: AppInfo }){
 
-    useEffect(()=>{
-
-    })
+    var [listingInfo, setListingInfo] = React.useState();
 
     return(
         <li className="site-list-entry">
             <img src={props.app.favIconUrl} alt=""/>
-            <p>{props.name}</p>
+            <p>{props.app.name}</p>
+            <p>{millisToMinutesAndSeconds(props.app.remainingTime)}</p>
         </li>
     )
 }
 
-export default Listing; 
+export function ActiveListing(props:{ app: ActiveAppInfo, currentSession: Session }){
+
+    var [listingInfo, setListingInfo] = React.useState();
+
+    return(
+        <li className="site-list-entry active">
+            <img src={props.app.favIconUrl} alt=""/>
+            <p>{props.app.name}</p>
+            <p>{millisToMinutesAndSeconds(props.currentSession? props.currentSession.remainingTime : props.app.currentSession.remainingTime)}</p>
+        </li>
+    )
+}

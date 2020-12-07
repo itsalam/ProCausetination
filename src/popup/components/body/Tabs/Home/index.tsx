@@ -1,33 +1,58 @@
-import React, { useEffect } from 'react';
-import {getCurrentApps} from 'Services/appService';
+import React, { Fragment, useEffect } from 'react';
+import {getActiveApp, getCurrentApps} from 'Services/appService';
 import './Home.scss';
 import SignIn from 'SignIn';
-import { AppInfo } from 'types';
-import Listing from './Listing';
+import { ActiveAppInfo, AppInfo, Session, Storage } from 'types';
+import {Listing, ActiveListing} from './Listing'
+import { getStorage } from 'Services/storageService';
 import Tab = chrome.tabs.Tab;
 
 function Home(){
     
-    var [apps, setApps] = React.useState<{name:string, app:AppInfo}[]>();
+    var [apps, setApps] = React.useState<AppInfo[]>();
+    var [activeApp, setActiveApp] = React.useState<ActiveAppInfo>();
+    var [currentSession, setCurrentSession] = React.useState<Session>();
+
+    const updateBlockedApps = async () => {
+        let appMap = await getCurrentApps();
+        let activeApp = await getActiveApp();
+        setActiveApp(activeApp);
+        setApps(Array.from(appMap, ([_, app]) => app ));
+    }
 
     useEffect(() => {
-        const updateBlockedApps = async () => {
-            let appMap = await getCurrentApps();
-            setApps(Array.from(appMap, ([name, app]) => ({ name, app })));
+        getUpdates();
+        updateBlockedApps()
+    },[]);
+
+    const getUpdates = async () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
+            setCurrentSession(message);
+        })
+    }
+
+
+    const getListings = () => {
+        if (!apps || apps.length === 0) {
+            return <p>No apps have been added yet.</p>
         }
-        // Update the document title using the browser API
-        updateBlockedApps();
-    }, []);
+        let listings: (AppInfo|ActiveAppInfo)[] = apps; 
+        if(activeApp !== undefined && currentSession !== undefined){
+            return (<Fragment>
+                <ActiveListing app={activeApp} currentSession={currentSession}/>
+                {apps.filter( app => {return activeApp && app.name !== activeApp.name}).map(app => <Listing app={app}/>)}
+            </Fragment>
+            )
+        }
+        return listings.map(app => <Listing app={app}/>)
+    }
 
     return(
         <div className="homecontainer">
             <div className="listContainer">
                 <ul>
-                    {(apps && apps.length > 0)? 
-                        apps.map(({name, app}) => <Listing name={name} app={app}/>)
-                        :
-                        <p>No apps have been added yet.</p>
-                    }
+                    {getListings()}
                 </ul>
             </div>
             <div className="homeFooter">

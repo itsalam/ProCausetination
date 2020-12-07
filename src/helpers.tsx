@@ -38,3 +38,8 @@ export function chromeStorageToMap(objectStr: string): Map<string, object>{
     return new Map(JSON.parse(objectStr).value)
 }
 
+export function millisToMinutesAndSeconds(millis: number) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds.toFixed(0);
+}

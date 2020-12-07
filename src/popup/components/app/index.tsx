@@ -9,7 +9,7 @@ function App() {
 
   var [curTab, setCurTab] = React.useState(0);
 
-  const onChange = (event: ChangeEvent<{}>, value: number) => {
+  const onChange = (event: ChangeEvent<{}>, value: number) => { 
     setCurTab(value);
   }
 
