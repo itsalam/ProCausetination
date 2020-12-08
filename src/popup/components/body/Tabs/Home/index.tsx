@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import {getCurrentApps} from 'services/currentApps';
-import Listing from './Listing';
 import './Home.scss';
-import SignIn from 'signIn';
+import SignIn from 'popup/components/signIn';
+import Listing from './listing';
 import Tab = chrome.tabs.Tab;
 
 function Home(){
@@ -37,9 +37,7 @@ function Home(){
                         <i className="las la-hand-holding-heart"/>
                     </div>
                 </div>
-                <div>
-                    <SignIn/>
-                </div>
+                <SignIn/>
             </div>
         </div>
     )

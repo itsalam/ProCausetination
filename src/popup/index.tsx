@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import intializeFirebase from 'firebaseConfig';
+import 'firebaseConfig';
 import {} from 'firebase/auth';
 import './index.css';
-import App from './components/App';
+import App from './components/app';
 import reportWebVitals from './reportWebVitals';
-
 
 
 ReactDOM.render(

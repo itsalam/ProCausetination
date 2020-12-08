@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@firebase/auth": "^0.15.3",
     "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.2",
@@ -15,6 +16,7 @@
     "@types/react-dom": "^16.9.9",
     "copy-webpack-plugin": "^6.3.0",
     "firebase": "^8.0.2",
+    "firebaseui": "^4.7.1",
     "generate-json-webpack-plugin": "^2.0.0",
     "node-sass": "4.14.1",
     "psl": "^1.8.0",

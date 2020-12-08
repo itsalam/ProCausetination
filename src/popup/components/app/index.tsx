@@ -1,8 +1,8 @@
 
 import React, { ChangeEvent } from 'react';
-import Header from '../Header';
-import Body from '../Body';
-import Footer from '../Footer';
+import Header from '../header';
+import Body from '../body';
+import Footer from '../footer';
 import './App.scss';
 
 function App() {

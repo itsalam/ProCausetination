@@ -6,10 +6,10 @@
         "https://www.googleapis.com/auth/drive"
       ]
     },
-    "key": "njiflojfmeflhbbdlndmkaljhjgpkili",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlGeJa4W64C4d1hXUutUPOKJFRwnF3iWjCBj9uKe0I+a1s4azMe6MuV56MqBTnNX1l49iXhsNhTNqwtq4bMOGmJSj/Hd1/eErweIeHcyJgA9/PIjXcPl4OJzKY8ktntgPEw4yydtwp9pRpBikq0pYXr+kW5e46f+WVJSs2GUxi/Zb2XXS5cztqo+anVwA5f2c7VdIsoZzPs8mMGzF1l8pT4HONoaSDPqRzXqvcr7Pj2eEZNBwAH55K8oTVD5ns2NZfMkZhPWNl7pQeZz5dE3CTGPbTJB1FsJ6JeA1N8GT+7qN1Naje+LjzVq36XXqBI7Xo9S5yaY3EGuyVYc+tfReFwIDAQAB",
     "name" : "time-block thing",
     "version": "0.0.1",
-    "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+    "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://www.apis.google.com; object-src 'self'",
     "description": "Blocks tabs, and plays an ad that will go to a donation/person when you enter the site outside of your restrictions",
     "icons": {
       "16": "icon_128.png",
